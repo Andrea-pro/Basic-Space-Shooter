@@ -36,7 +36,7 @@ public class Enemy : MonoBehaviour
             // checks if the player exists and thereby avoids errors
             if (player != null)
             {
-                //if the player exists then apply the damage method from the player script
+                //then apply the damage method from the player script
                 player.Damage();
             }
 
