@@ -20,8 +20,13 @@ public class LaserScript : MonoBehaviour
         transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
         if (transform.position.y > 8f)
         {
+            // checks if object has a parent
+            if (transform.parent != null)
+            {
+                //then destroy the parent, child will be destroyed as well
+                Destroy(transform.parent.gameObject);
+            }
             Destroy(this.gameObject);
-
         }
     }
 }

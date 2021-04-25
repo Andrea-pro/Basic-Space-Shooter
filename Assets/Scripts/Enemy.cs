@@ -12,7 +12,6 @@ public class Enemy : MonoBehaviour
         //Adding a start position to avoid spawning on the player
         transform.position = new Vector3(0, -9f, 0);
     }
-
   
     void Update()
     {
@@ -25,8 +24,7 @@ public class Enemy : MonoBehaviour
         }
        
     }
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
