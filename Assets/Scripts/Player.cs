@@ -25,16 +25,27 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldVisualizer;
 
+    [SerializeField]
+    private int _score;
+
+    private UIManager _uiManager;
+
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector3(0, -3f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_spawnManager == null)
         {
-            Debug.LogError("Spawn Manager is null");
+            Debug.LogError("Spawn Manager is null.");
+        }
+
+        if (_uiManager == null)
+        {
+            Debug.LogError("UI Manager is null.");
         }
     }
 
@@ -134,12 +145,17 @@ public class Player : MonoBehaviour
         _speedBoostActive = false;
         _speed /= _speedBooster;
     }
-
     public void ShieldActive()
     {
         _shieldActive = true;
         _shieldVisualizer.SetActive(true);
        
     }
+
+    public void ScorePlus(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
+    }    
    
 }

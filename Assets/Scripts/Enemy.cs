@@ -6,11 +6,15 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _enemySpeed = 4.0f;
-   
+    private Player _player;
+
     void Start()
     {
         //Adding a start position to avoid spawning on the player
         transform.position = new Vector3(0, -9f, 0);
+
+       _player = GameObject.Find("Player").GetComponent<Player>();
+      
     }
   
     void Update()
@@ -44,6 +48,11 @@ public class Enemy : MonoBehaviour
         if (other.tag == "Laser")
         {
             Destroy(other.gameObject);
+            if (_player != null)
+            {
+                _player.ScorePlus(10);
+            }
+
             Destroy(this.gameObject);
         }
 
