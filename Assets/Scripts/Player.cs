@@ -36,6 +36,7 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0, -3f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
         if (_spawnManager == null)
@@ -112,6 +113,8 @@ public class Player : MonoBehaviour
         }
                 
         _lives -= 1;
+
+        _uiManager.UpdateLives(_lives);
 
         if (_lives < 1)
         {
