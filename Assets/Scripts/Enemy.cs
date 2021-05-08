@@ -5,8 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 4.0f;
+    private float _enemySpeed = 2.0f; //reduced speed to test it slower
     private Player _player;
+    private Animator _anim;
 
     void Start()
     {
@@ -14,7 +15,15 @@ public class Enemy : MonoBehaviour
         transform.position = new Vector3(0, -9f, 0);
 
        _player = GameObject.Find("Player").GetComponent<Player>();
-      
+        if (_player == null)
+        {
+            Debug.LogError("The player is NULL.");
+        }
+        _anim = GetComponent<Animator>();
+        if (_anim == null)
+        {
+            Debug.LogError("Animator is Null.");
+        }
     }
   
     void Update()
@@ -32,17 +41,16 @@ public class Enemy : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            //Create a variable for the player getting the component of player
             Player player = other.transform.GetComponent<Player>();
 
-            // checks if the player exists and thereby avoids errors
             if (player != null)
             {
-                //then apply the damage method from the player script
                 player.Damage();
             }
 
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            Destroy(this.gameObject, 2.8f);
         }
 
         if (other.tag == "Laser")
@@ -52,8 +60,9 @@ public class Enemy : MonoBehaviour
             {
                 _player.ScorePlus(10);
             }
-
-            Destroy(this.gameObject);
+            _anim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            Destroy(this.gameObject, 2.8f);
         }
 
     }
