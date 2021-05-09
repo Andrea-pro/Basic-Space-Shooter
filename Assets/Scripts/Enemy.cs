@@ -8,13 +8,16 @@ public class Enemy : MonoBehaviour
     private float _enemySpeed = 2.0f; //reduced speed to test it slower
     private Player _player;
     private Animator _anim;
+    private AudioSource _audioSource;
 
     void Start()
     {
         //Adding a start position to avoid spawning on the player
         transform.position = new Vector3(0, -9f, 0);
 
-       _player = GameObject.Find("Player").GetComponent<Player>();
+        _player = GameObject.Find("Player").GetComponent<Player>();
+        _audioSource = GetComponent<AudioSource>();
+
         if (_player == null)
         {
             Debug.LogError("The player is NULL.");
@@ -50,7 +53,9 @@ public class Enemy : MonoBehaviour
 
             _anim.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
+            
         }
 
         if (other.tag == "Laser")
@@ -62,7 +67,9 @@ public class Enemy : MonoBehaviour
             }
             _anim.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
+            _audioSource.Play();
             Destroy(this.gameObject, 2.8f);
+           
         }
 
     }
