@@ -5,10 +5,14 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 2.0f; //reduced speed to test it slower
+    private float _enemySpeed = 6.0f; //reduced speed to test it slower
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
+    [SerializeField]
+    private GameObject _laserPrefab; //enemy fire
+    private float _fireRateEnemy = 3.0f; //enemy fire
+    private float _canFire = -1; //enemy fire
 
     void Start()
     {
@@ -31,6 +35,25 @@ public class Enemy : MonoBehaviour
   
     void Update()
     {
+        CalculateMovement();
+
+        if (Time.time > _canFire)
+        {
+            _fireRateEnemy = Random.Range(3f, 7f);
+            _canFire = Time.time + _fireRateEnemy;
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0,-0.6f,0), Quaternion.identity); 
+            LaserScript[] lasers = enemyLaser.GetComponentsInChildren<LaserScript>();
+
+         for (int i = 0; i < lasers.Length; i++) //review
+            {
+                lasers[i].AssignEnemyLaser();
+            } 
+        } 
+    }
+     
+    void CalculateMovement()
+    {
+
         transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
 
         if (transform.position.y < -5f)
@@ -38,8 +61,9 @@ public class Enemy : MonoBehaviour
             float randomX = Random.Range(-9f, 9);
             transform.position = new Vector3(randomX, 7, 0);
         }
-       
     }
+
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
@@ -54,7 +78,7 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _enemySpeed = 0;
             _audioSource.Play();
-            Destroy(this.gameObject, 2.8f);
+            Destroy(this.gameObject, 1.0f);
             
         }
 

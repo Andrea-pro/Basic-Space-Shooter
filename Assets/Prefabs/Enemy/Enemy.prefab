@@ -48,7 +48,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7c915a9d1792ec49be3c62022b7fe17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemySpeed: 2
+  _enemySpeed: 4
+  _laserPrefab: {fileID: 3112915184328637061, guid: b0c8faf6bf8b62c48be28f4ad5d11989, type: 3}
 --- !u!212 &8334607412909892840
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -134,7 +135,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.008713067, y: 0.060992956}
+  m_Offset: {x: -0.008713007, y: 0.16179067}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -145,7 +146,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2794576, y: 3.2204962}
+  m_Size: {x: 2.2794576, y: 3.0189009}
   m_EdgeRadius: 0
 --- !u!95 &4332237751101154944
 Animator:

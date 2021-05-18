@@ -6,6 +6,8 @@ public class LaserScript : MonoBehaviour
 {
     [SerializeField]
     private float _laserSpeed = 8f;
+    [SerializeField]
+    private bool _isEnemyLaser = false;
 
     // Start is called before the first frame update
     void Start()
@@ -16,9 +18,34 @@ public class LaserScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //translater laser up
+       if(_isEnemyLaser == false)
+       {
+            MoveUp();
+       }
+       else
+       {
+            MoveDown();
+       }
+    }
+
+    void MoveUp()
+    {
         transform.Translate(Vector3.up * _laserSpeed * Time.deltaTime);
         if (transform.position.y > 8f)
+        {
+            if (transform.parent != null)
+            {
+               Destroy(transform.parent.gameObject);
+            }
+            Destroy(this.gameObject);
+        }
+    }
+
+    void MoveDown()
+    {
+        //translate laser down
+        transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
+        if (transform.position.y < -8f)
         {
             // checks if object has a parent
             if (transform.parent != null)
@@ -27,6 +54,25 @@ public class LaserScript : MonoBehaviour
                 Destroy(transform.parent.gameObject);
             }
             Destroy(this.gameObject);
+
+        }
+     }
+    public void AssignEnemyLaser()
+    {
+        _isEnemyLaser = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Player" && _isEnemyLaser == true)
+        {
+            Player player = other.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Damage();
+            }
         }
     }
 }
+
+
