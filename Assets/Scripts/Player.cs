@@ -40,6 +40,10 @@ public class Player : MonoBehaviour
     private bool _speedShiftActive = false;
     private float _standardSpeed = 6.5f;
 
+    // Shield Strength
+    private int _shieldCounter = 0;
+
+
     void Start()
     {
         transform.position = new Vector3(0, -3f, 0);
@@ -136,8 +140,14 @@ public class Player : MonoBehaviour
     {
         if(_shieldActive == true)
         {
-            _shieldActive = false;
-            _shieldVisualizer.SetActive(false);
+            _shieldCounter--;
+            SetShieldColor();
+
+            if (_shieldCounter < 1)
+            {
+                _shieldActive = false;
+                _shieldVisualizer.SetActive(false);
+            }
             return;
         }
                 
@@ -190,7 +200,39 @@ public class Player : MonoBehaviour
     {
         _shieldActive = true;
         _shieldVisualizer.SetActive(true);
+        _shieldCounter++;
+        SetShieldColor(); 
+
+        if (_shieldCounter >3) //fixes getting more than 3 shields
+        {
+            _shieldCounter = 3;
+        }
        
+    }
+
+    public void SetShieldColor()
+    {
+        switch (_shieldCounter)
+        {
+            case 3:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 1);
+                break;
+
+            case 2:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1,(float) 0.5);
+                break;
+
+            case 1:
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1,(float) 0.2);
+                break;
+            case 0:
+                _shieldActive = false;
+                _shieldVisualizer.SetActive(false);
+                break;
+
+        }
+
+
     }
 
     public void ScorePlus(int points)

@@ -5,13 +5,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField]
-    private float _enemySpeed = 6.0f; //reduced speed to test it slower
+    private float _enemySpeed = 5.0f; //reduced speed to test it slower
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
     [SerializeField]
     private GameObject _laserPrefab; //enemy fire
-    private float _fireRateEnemy = 3.0f; //enemy fire
+    private float _fireRateEnemy = 5.0f; //enemy fire
     private float _canFire = -1; //enemy fire
 
     void Start()
@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
         if (Time.time > _canFire)
         {
-            _fireRateEnemy = Random.Range(3f, 7f);
+            _fireRateEnemy = Random.Range(5f, 10f);
             _canFire = Time.time + _fireRateEnemy;
             GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0,-0.6f,0), Quaternion.identity); 
             LaserScript[] lasers = enemyLaser.GetComponentsInChildren<LaserScript>();

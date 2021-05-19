@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserScript : MonoBehaviour
 {
     [SerializeField]
-    private float _laserSpeed = 8f;
+    private float _laserSpeed = 6f;
     [SerializeField]
     private bool _isEnemyLaser = false;
 
