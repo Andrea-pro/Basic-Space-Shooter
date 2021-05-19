@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _rightEngine, _leftEngine;
    
-
     [SerializeField]
     private int _score;
 
@@ -36,7 +35,11 @@ public class Player : MonoBehaviour
     private AudioClip _laserSoundClip;
     private AudioSource _audioSource;
 
-    // Start is called before the first frame update
+    // Thruster Speed with Shift key
+    private float _speedShift = 12.0f; // var for speed when shift key is pressed
+    private bool _speedShiftActive = false;
+    private float _standardSpeed = 6.5f;
+
     void Start()
     {
         transform.position = new Vector3(0, -3f, 0);
@@ -63,8 +66,6 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserSoundClip;
         }
 
-
-
     }
 
     // Update is called once per frame
@@ -75,6 +76,15 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         { 
             FireLaser(); 
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift))
+        {
+            SpeedShiftRun();
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _speed = _standardSpeed; //not the most elegant solution I know
         }
     }
    
@@ -187,6 +197,12 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
-    }    
-   
+    }
+
+    public void SpeedShiftRun() //could have simply done it in update for the first implementation, but need it for HUD later
+    {
+        _speedShiftActive = true;
+        _speed = _speedShift;
+    }
+       
 }
