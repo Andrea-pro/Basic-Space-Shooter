@@ -24,7 +24,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(10.0f); 
+        yield return new WaitForSeconds(8.0f); 
         while (_stopSpawning == false)
         {
             Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
@@ -41,7 +41,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
-            int randomPowerUp = Random.Range(0, 3); // if int the last number never gets called  
+            int randomPowerUp = Random.Range(0, 4); // if int the last number never gets called  
             Instantiate(powerups[randomPowerUp], spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3.0f, 10.0f));
         }

@@ -249,4 +249,9 @@ public class Player : MonoBehaviour
          _uiManager.UpdateAmmo(_ammoCount, _maxAmmo);
     }
 
+    public void AmmoFill()
+    {
+        _ammoCount = 15;
+        _uiManager.UpdateAmmo(_ammoCount, _maxAmmo);
+    }
 }
