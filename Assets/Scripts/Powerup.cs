@@ -48,6 +48,10 @@ public class Powerup : MonoBehaviour
                     player.AmmoFill();
                     break;
 
+                    case 4:
+                    player.HealthUp();
+                    break;
+
                     default:
                     Debug.Log("Default Value");
                     break;
