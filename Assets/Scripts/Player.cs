@@ -4,35 +4,26 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _speed = 6.5f;
+    [SerializeField] private float _speed = 6.5f;
     private float _speedBooster = 2.0f;
-    [SerializeField]
-    private GameObject _laserPrefab;
-    [SerializeField]
-    private GameObject _tripleShotPrefab;
+    [SerializeField] private GameObject _laserPrefab;
+    [SerializeField] private GameObject _tripleShotPrefab;
     private float _fireRate = 0.15f;
     private float _canFire = -1f;
-    [SerializeField]
-    private  int _lives = 3;
-    [SerializeField]
-    private SpawnManager _spawnManager;
-   
+    [SerializeField] private int _lives = 3;
+    [SerializeField] private SpawnManager _spawnManager;
+
     private bool _tripleShotActive = false;
     private bool _speedBoostActive = false;
     private bool _shieldActive = false;
 
-    [SerializeField]
-    private GameObject _shieldVisualizer;
-    [SerializeField]
-    private GameObject _rightEngine, _leftEngine;
-   
-    [SerializeField]
-    private int _score;
+    [SerializeField] private GameObject _shieldVisualizer;
+    [SerializeField] private GameObject _rightEngine, _leftEngine;
+
+    [SerializeField] private int _score;
 
     private UIManager _uiManager;
-    [SerializeField]
-    private AudioClip _laserSoundClip;
+    [SerializeField] private AudioClip _laserSoundClip;
     private AudioSource _audioSource;
 
     // Thruster Speed with Shift key
@@ -42,6 +33,10 @@ public class Player : MonoBehaviour
 
     // Shield Strength
     private int _shieldCounter = 0;
+
+    //Ammo Count
+    [SerializeField] private int _ammoCount = 15;
+    private int _maxAmmo = 15;
 
 
     void Start()
@@ -61,7 +56,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("UI Manager is null.");
         }
-        if(_audioSource == null)
+        if (_audioSource == null)
         {
             Debug.LogError("AudioSource on player is NULL");
         }
@@ -77,12 +72,12 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        { 
-            FireLaser(); 
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount >= 1)
+        {
+            FireLaser();
         }
 
-        if(Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             SpeedShiftRun();
         }
@@ -91,8 +86,8 @@ public class Player : MonoBehaviour
             _speed = _standardSpeed; //not the most elegant solution I know
         }
     }
-   
-    void CalculateMovement ()
+
+    void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -100,7 +95,7 @@ public class Player : MonoBehaviour
         transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
         //alternative solution transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
 
-       
+
         if (transform.position.y >= 0)
         {
             transform.position = new Vector3(transform.position.x, 0, 0);
@@ -110,7 +105,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(transform.position.x, -3.8f, 0);
         }
 
-        
+
         if (transform.position.x >= 11)
         {
             transform.position = new Vector3(-11, transform.position.y, 0);
@@ -123,22 +118,23 @@ public class Player : MonoBehaviour
     void FireLaser()
     {
         _canFire = Time.time + _fireRate;
-              
+
         if (_tripleShotActive == true)
         {
             Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
         }
-        else 
+        else
         {
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
         }
 
         _audioSource.Play();
-    }    
+        UpdateAmmoCount();
+    }
 
     public void Damage()
     {
-        if(_shieldActive == true)
+        if (_shieldActive == true)
         {
             _shieldCounter--;
             SetShieldColor();
@@ -150,14 +146,14 @@ public class Player : MonoBehaviour
             }
             return;
         }
-                
+
         _lives -= 1;
 
-        if(_lives == 2)
+        if (_lives == 2)
         {
             _rightEngine.SetActive(true);
         }
-        else if(_lives == 1)
+        else if (_lives == 1)
         {
             _leftEngine.SetActive(true);
         }
@@ -166,10 +162,10 @@ public class Player : MonoBehaviour
 
         if (_lives < 1)
         {
-             _spawnManager.OnPlayerDeath();
-             Destroy(this.gameObject);
+            _spawnManager.OnPlayerDeath();
+            Destroy(this.gameObject);
         }
-      
+
     }
 
     public void TripleShotActive()
@@ -201,13 +197,13 @@ public class Player : MonoBehaviour
         _shieldActive = true;
         _shieldVisualizer.SetActive(true);
         _shieldCounter++;
-        SetShieldColor(); 
+        SetShieldColor();
 
-        if (_shieldCounter >3) //fixes getting more than 3 shields
+        if (_shieldCounter > 3) //fixes getting more than 3 shields
         {
             _shieldCounter = 3;
         }
-       
+
     }
 
     public void SetShieldColor()
@@ -219,11 +215,11 @@ public class Player : MonoBehaviour
                 break;
 
             case 2:
-                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1,(float) 0.5);
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)0.5);
                 break;
 
             case 1:
-                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1,(float) 0.2);
+                _shieldVisualizer.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, (float)0.2);
                 break;
             case 0:
                 _shieldActive = false;
@@ -246,5 +242,11 @@ public class Player : MonoBehaviour
         _speedShiftActive = true;
         _speed = _speedShift;
     }
-       
+
+    public void UpdateAmmoCount()
+    {
+         _ammoCount -= 1;
+         _uiManager.UpdateAmmo(_ammoCount, _maxAmmo);
+    }
+
 }

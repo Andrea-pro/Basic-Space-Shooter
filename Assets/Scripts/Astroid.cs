@@ -4,10 +4,8 @@ using UnityEngine;
 
 public class Astroid : MonoBehaviour
 {
-    [SerializeField]
-    private float _astroidRotateSpeed = 15f;
-    [SerializeField]
-    private GameObject _explosionPrefab;
+    [SerializeField] private float _astroidRotateSpeed = 15f;
+    [SerializeField] private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
 
     // Start is called before the first frame update

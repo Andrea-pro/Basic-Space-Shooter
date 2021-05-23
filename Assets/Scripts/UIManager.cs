@@ -6,23 +6,19 @@ using UnityEngine.UI;
 public class UIManager : MonoBehaviour
 {
 
-    [SerializeField]
-    private Text _scoreText;
-    [SerializeField]
-    private Text _gameOverText;
-    [SerializeField]
-    private Text _restartText;
-    [SerializeField]
-    private Image _LivesImg;
-    [SerializeField]
-    private Sprite[] _liveSprites;
-
+    [SerializeField] private Text _scoreText;
+    [SerializeField] private Text _gameOverText;
+    [SerializeField] private Text _restartText;
+    [SerializeField] private Image _LivesImg;
+    [SerializeField] private Sprite[] _liveSprites;
+    [SerializeField] private Text _ammoText;
     private GameManager _gameManager;
 
     
     void Start()
     {
         _scoreText.text = "Score: " + 0;
+        _ammoText.text = "Ammo: " + 15 + " / " + 15; //hardcoded right now, fix it later
         _gameOverText.gameObject.SetActive(false);
         _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
 
@@ -51,6 +47,19 @@ public class UIManager : MonoBehaviour
         {
             GameOverSequence();
         }
+    }
+
+    public void UpdateAmmo(int ammoCount, int maxAmmo)
+    {
+        _ammoText.text = "Ammo: " + ammoCount + " / " + maxAmmo;
+
+        if (ammoCount < 1)
+        {
+           _ammoText.color = Color.red;
+            
+        }
+        
+
     }
 
     void GameOverSequence()

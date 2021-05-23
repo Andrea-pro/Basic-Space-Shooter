@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Powerup : MonoBehaviour
 {
-    [SerializeField]
-    private float _powerupSpeed = 3.0f;
-    [SerializeField]
-    private int powerupId; // 0 Triple shot, 1 Speed, 2 Shield
-    [SerializeField]
-    private AudioClip _clip;
+    [SerializeField] private float _powerupSpeed = 3.0f;
+    [SerializeField] private int powerupId; // 0 Triple shot, 1 Speed, 2 Shield
+    [SerializeField] private AudioClip _clip;
     
     void Update()
     {

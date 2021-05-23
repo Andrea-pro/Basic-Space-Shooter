@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField]
-    private float _enemySpeed = 5.0f; //reduced speed to test it slower
+    [SerializeField] private float _enemySpeed = 5.0f; //reduced speed to test it slower
     private Player _player;
     private Animator _anim;
     private AudioSource _audioSource;
-    [SerializeField]
-    private GameObject _laserPrefab; //enemy fire
+    [SerializeField] private GameObject _laserPrefab; //enemy fire
     private float _fireRateEnemy = 5.0f; //enemy fire
     private float _canFire = -1; //enemy fire
 
