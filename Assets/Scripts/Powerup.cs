@@ -52,6 +52,10 @@ public class Powerup : MonoBehaviour
                     player.HealthUp();
                     break;
 
+                    case 5:
+                    player.FirewallUp();
+                    break;
+
                     default:
                     Debug.Log("Default Value");
                     break;

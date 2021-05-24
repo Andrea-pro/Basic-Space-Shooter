@@ -38,6 +38,11 @@ public class Player : MonoBehaviour
     [SerializeField] private int _ammoCount = 15;
     private int _maxAmmo = 15;
 
+    //2nd Fire Firewall
+    [SerializeField] private GameObject _firewallObject;
+    private bool _firewallActive = false;
+    private int _firewallCounter = 0;
+
 
     void Start()
     {
@@ -117,19 +122,22 @@ public class Player : MonoBehaviour
     }
     void FireLaser()
     {
-        _canFire = Time.time + _fireRate;
-
-        if (_tripleShotActive == true)
+        if (_firewallActive == false)
         {
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-        }
-        else
-        {
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
-        }
+            _canFire = Time.time + _fireRate;
 
-        _audioSource.Play();
-        UpdateAmmoCount();
+            if (_tripleShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity);
+            }
+
+            _audioSource.Play();
+            UpdateAmmoCount();
+        }
     }
 
     public void Damage()
@@ -270,5 +278,26 @@ public class Player : MonoBehaviour
         }
 
 
+    }
+    public void FirewallUp()
+    {
+        _firewallCounter++; //a quick solution to have the firewall spawn slowly :)
+        _uiManager.UpdateFirewallCounter(_firewallCounter);
+
+        if (_firewallCounter == 3)
+        {
+            _firewallActive = true;
+            _firewallObject.SetActive(true);
+            StartCoroutine(FirewallPowerDownRoutine());
+            _firewallCounter = 0;
+            _uiManager.UpdateFirewallCounter(_firewallCounter);
+        }
+    }
+
+    IEnumerator FirewallPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _firewallActive = false;
+        _firewallObject.SetActive(false);
     }
 }

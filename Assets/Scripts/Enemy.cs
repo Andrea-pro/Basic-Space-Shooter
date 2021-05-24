@@ -37,9 +37,9 @@ public class Enemy : MonoBehaviour
 
         if (Time.time > _canFire)
         {
-            _fireRateEnemy = Random.Range(5f, 10f);
+            _fireRateEnemy = Random.Range(8f, 10f);
             _canFire = Time.time + _fireRateEnemy;
-            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0,-0.6f,0), Quaternion.identity); 
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position + new Vector3(0,-0.4f,0), Quaternion.identity); 
             LaserScript[] lasers = enemyLaser.GetComponentsInChildren<LaserScript>();
 
          for (int i = 0; i < lasers.Length; i++) //review
@@ -93,6 +93,14 @@ public class Enemy : MonoBehaviour
             Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.8f);
            
+        }
+
+        if (other.tag == "Firewall")
+        {
+            _anim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            _audioSource.Play();
+            Destroy(this.gameObject, 2.8f);
         }
 
     }
