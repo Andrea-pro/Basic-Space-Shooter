@@ -12,7 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Image _LivesImg;
     [SerializeField] private Sprite[] _liveSprites;
     [SerializeField] private Text _ammoText;
-    [SerializeField] private Text _firewallText; 
+    [SerializeField] private Text _firewallText;
+     
     private GameManager _gameManager;
 
     
@@ -31,11 +32,6 @@ public class UIManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void UpdateScore(int playerScore)
     {
         _scoreText.text = "Score: " + playerScore.ToString();

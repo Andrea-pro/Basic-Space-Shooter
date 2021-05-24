@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -31,6 +32,12 @@ public class Player : MonoBehaviour
     private bool _speedShiftActive = false;
     private float _standardSpeed = 6.5f;
 
+    //Thruster HUD Stamina Bar
+    [SerializeField] public Slider _thrusterStaminaBar;
+    private float _thrusterStaminaMax = 100f;
+    private float _thrusterStaminaCurrent;
+    private float _thrusterStaminaChangeRate;
+
     // Shield Strength
     private int _shieldCounter = 0;
 
@@ -43,6 +50,9 @@ public class Player : MonoBehaviour
     private bool _firewallActive = false;
     private int _firewallCounter = 0;
 
+   
+
+
 
     void Start()
     {
@@ -51,6 +61,11 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+       
+        //ThrusterStaminaBar Start
+        _thrusterStaminaCurrent = 100f;
+        _thrusterStaminaChangeRate = 20f;
+
 
         if (_spawnManager == null)
         {
@@ -72,24 +87,45 @@ public class Player : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         CalculateMovement();
+        SpeedShiftThurster();
+        _thrusterStaminaBar.value = _thrusterStaminaCurrent;
 
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _ammoCount >= 1)
         {
             FireLaser();
         }
+    }
 
+    public void SpeedShiftThurster()
+    {
         if (Input.GetKey(KeyCode.LeftShift))
         {
-            SpeedShiftRun();
+            if (_thrusterStaminaCurrent > 0)
+            {
+                _speedShiftActive = true;
+                _speed = _speedShift;
+                _thrusterStaminaCurrent -= _thrusterStaminaChangeRate * Time.deltaTime;
+            }
+
+            else if (_thrusterStaminaCurrent <= 0)
+            {
+                _speed = _standardSpeed;
+            }
+
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else 
         {
-            _speed = _standardSpeed; //not the most elegant solution I know
+            _speed = _standardSpeed;
+
+            if (_thrusterStaminaCurrent < _thrusterStaminaMax)
+            {
+                _thrusterStaminaCurrent += _thrusterStaminaChangeRate * Time.deltaTime;
+            }
         }
+
     }
 
     void CalculateMovement()
@@ -187,7 +223,7 @@ public class Player : MonoBehaviour
         _tripleShotActive = false;
     }
 
-    public void SpeedBoostActive()
+    public void SpeedBoostActive() //This is for the powerup
     {
         _speedBoostActive = true;
         _speed *= _speedBooster;
@@ -243,12 +279,6 @@ public class Player : MonoBehaviour
     {
         _score += points;
         _uiManager.UpdateScore(_score);
-    }
-
-    public void SpeedShiftRun() //could have simply done it in update for the first implementation, but need it for HUD later
-    {
-        _speedShiftActive = true;
-        _speed = _speedShift;
     }
 
     public void UpdateAmmoCount()
