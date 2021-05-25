@@ -50,18 +50,17 @@ public class Player : MonoBehaviour
     private bool _firewallActive = false;
     private int _firewallCounter = 0;
 
+    //CameraShake
+    [SerializeField] public CameraShake cameraShake; //Camera in inspector goes here
+  
    
-
-
-
     void Start()
     {
         transform.position = new Vector3(0, -3f, 0);
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _audioSource = GetComponent<AudioSource>();
-
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-       
+    
         //ThrusterStaminaBar Start
         _thrusterStaminaCurrent = 100f;
         _thrusterStaminaChangeRate = 20f;
@@ -192,7 +191,8 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
-
+        StartCoroutine(cameraShake.Shake(0.15f, 0.2f));
+       
         if (_lives == 2)
         {
             _rightEngine.SetActive(true);
@@ -203,7 +203,7 @@ public class Player : MonoBehaviour
         }
 
         _uiManager.UpdateLives(_lives);
-
+       
         if (_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
