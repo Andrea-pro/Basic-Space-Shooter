@@ -52,7 +52,9 @@ public class Player : MonoBehaviour
 
     //CameraShake
     [SerializeField] public CameraShake cameraShake; //Camera in inspector goes here
-  
+
+    //CheatActive
+    public bool _cheatActive = false;
    
     void Start()
     {
@@ -96,6 +98,17 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _cheatActive = true;
+        }
+
+        if (Input.GetKeyUp(KeyCode.C))
+        {
+            _cheatActive = false;
+        }
+
     }
 
     public void SpeedShiftThurster()

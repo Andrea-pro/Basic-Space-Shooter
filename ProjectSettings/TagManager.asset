@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Enemy_Laser
   - Firewall
+  - Powerup
   layers:
   - Default
   - TransparentFX

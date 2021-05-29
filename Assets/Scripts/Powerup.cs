@@ -8,6 +8,17 @@ public class Powerup : MonoBehaviour
     [SerializeField] private int powerupId; // 0 Triple shot, 1 Speed, 2 Shield, 3 Ammo fill
     [SerializeField] private AudioClip _clip;
     
+    //Cheat Key C
+    private float _cheatSpeed = 15f;
+    private Vector3 _playerPos;
+    private Player _player;
+
+    void Awake()
+    {
+      _player = GameObject.Find("Player").GetComponent<Player>();
+
+    }
+
     void Update()
     {
         transform.Translate(Vector3.down * _powerupSpeed * Time.deltaTime);
@@ -17,7 +28,11 @@ public class Powerup : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-       
+       if(_player._cheatActive)
+        {
+            _playerPos = GameObject.Find("Player").transform.position;
+            transform.position = Vector3.MoveTowards(transform.position, _playerPos, _cheatSpeed * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
