@@ -330,4 +330,9 @@ public class Player : MonoBehaviour
         _firewallActive = false;
         _firewallObject.SetActive(false);
     }
+
+    public void NegativeUp()
+    {
+        _thrusterStaminaCurrent = 20f; //Reduces the thruster stamina to 20
+    }
 }
