@@ -54,16 +54,19 @@ public class Enemy : MonoBehaviour
 
         transform.Translate(Vector3.down * _enemySpeed * Time.deltaTime);
 
+        /* turning new enemy movement of for next challenges
         if (transform.position.y < 1f) // New Enemy Movement
         {
             transform.Translate(new Vector3(-1f, 0f, 0f) * _enemySpeed * Time.deltaTime);
         }
+        */
 
         if (transform.position.y < -9f)
         {
             float randomX = Random.Range(-9f, 9);
             transform.position = new Vector3(randomX, 7, 0);
         }
+       
     }
 
 
