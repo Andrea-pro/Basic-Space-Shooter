@@ -531,6 +531,7 @@ MonoBehaviour:
   _ammoCount: 15
   _firewallObject: {fileID: 1669116419}
   cameraShake: {fileID: 1313226618}
+  _cheatActive: 0
 --- !u!212 &270827593
 SpriteRenderer:
   m_ObjectHideFlags: 0
