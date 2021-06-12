@@ -9,6 +9,11 @@ TagManager:
   - Enemy_Laser
   - Firewall
   - Powerup
+  - Mine
+  - Enemy2
+  - Spawn_Manager
+  - Laser_Left
+  - Laser_Right
   layers:
   - Default
   - TransparentFX

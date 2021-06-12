@@ -294,6 +294,7 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
+   
     public void UpdateAmmoCount()
     {
          _ammoCount -= 1;

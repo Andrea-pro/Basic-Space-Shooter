@@ -103,6 +103,21 @@ public class Enemy : MonoBehaviour
            
         }
 
+       /* if (other.tag == "Mine")
+        {
+            Destroy(other.gameObject);
+            if (_player != null)
+            {
+                _player.ScorePlus(10);
+            }
+            _anim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            _audioSource.Play();
+            Destroy(GetComponent<Collider2D>());
+            Destroy(this.gameObject, 2.8f);
+
+        } */
+
         if (other.tag == "Firewall")
         {
             _anim.SetTrigger("OnEnemyDeath");

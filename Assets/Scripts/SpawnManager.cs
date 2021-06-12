@@ -4,27 +4,49 @@ using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
 {
+    [Header("Enemy Variables")]
     [SerializeField] private GameObject _enemyPrefab;
     [SerializeField] private GameObject _enemyContainer;
-    private bool _stopSpawning = false;
-    [SerializeField] private GameObject[] powerups;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-             
-    }
+   // New Enemy Type
+    [SerializeField] private GameObject _enemy2Prefab;
+    public bool _enemy2Exists = false;
+    
+    [Header("Powerup Variables")]
+    [SerializeField] private GameObject[] powerups;
+   
+    [Header("General Spawn Manager")]
+    private bool _stopSpawning = false;
+    
+
 
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        StartCoroutine(SpawnEnemy2Routine());
     }
 
+    IEnumerator SpawnEnemy2Routine()
+    {
+        yield return new WaitForSeconds(2.0f);
+        while (_stopSpawning == false)
+        {
+            yield return new WaitForSeconds(2.0f);
+            if (_enemy2Exists == false)
+            { Vector3 spawnPosition = new Vector3(-7, 2, 0);
+                //GameObject newEnemy2 = 
+                Instantiate(_enemy2Prefab, spawnPosition, Quaternion.identity);
+                //newEnemy2.transform.parent = _enemyContainer.transform;
+                _enemy2Exists = true;
+                yield return new WaitForSeconds(2.0f);
+            }
+        }
+    }
 
     IEnumerator SpawnEnemyRoutine()
     {
-        yield return new WaitForSeconds(8.0f); 
+        yield return new WaitForSeconds(5.0f); 
         while (_stopSpawning == false)
         {
             Vector3 spawnPosition = new Vector3(Random.Range(-8f, 8f), 7, 0);
@@ -51,5 +73,18 @@ public class SpawnManager : MonoBehaviour
     {
         _stopSpawning = true;
     }
+
+    public void Enemy2Exists()
+    {
+        _enemy2Exists = true;
+    }
+
+    public void Enemy2Dead()
+    {
+        //Debug.LogError("Enemy 2 Dead - Bool Triggered."); 
+        _enemy2Exists = false;
+    }
+    
+
 
 }
